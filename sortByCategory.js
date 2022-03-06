@@ -1,7 +1,7 @@
 // a function to sort an array by the input key, and in a given order, asc or dsc.
 // set default values for the input key = id, and default order asc.
 
-const sortBy = (key, order = 'asc') => {
+const sortByCategory = (key, order = 'asc') => {
     return function innerSort(a, b) {
         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
             // property doesn't exist on either object
@@ -24,4 +24,5 @@ const sortBy = (key, order = 'asc') => {
 
 }
 
-module.exports = { sortBy }; 
+module.exports = { sortByCategory }; 
+
