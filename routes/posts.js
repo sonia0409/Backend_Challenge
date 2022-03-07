@@ -14,6 +14,8 @@ module.exports = () => {
         const validSortBy = ['id', 'authorId', 'likes', 'popularity', 'reads', undefined];
         const validDirection = ['asc', 'desc', undefined]
         const multipleTagsArr = tags.split(',')
+        //to validate the tags
+        const validTags = ['tech', 'health', 'history', 'science', 'startups', 'culture', 'design', 'politics']
 
         if (!validSortBy.includes(sortBy) || !validDirection.includes(direction)) {
             res.status(400).json({ error: "sortBy parameter is invalid" })
@@ -37,6 +39,9 @@ module.exports = () => {
         const getPostsByMultipleTags = (multipleTagsArr, sortBy, direction) => {
             //an array of api calls made with each tag
             const apiCallArr = multipleTagsArr.map(tag => {
+                if(!validTags.includes(tag)){
+                   res.status(400).json({ error: "tech parameter is invalid" })
+                }
                 return axios.get(`http://hatchways.io/api/assessment/blog/posts?tag=${tag}&sortBy=${sortBy}&direction=${direction}`)
             })
 
