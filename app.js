@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use('/api/ping', cache('30 minutes'), pingRouter())
 app.use('/api/posts', cache('30 minutes'), postsRouter()) 
 
-
+module.exports = app;
 //search by tag field
 // app.get('/api/posts/:tags', (req, res) => {
     // const { tags } = req.params
@@ -75,4 +75,4 @@ app.use('/api/posts', cache('30 minutes'), postsRouter())
 // })
 // 
 
-app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
+//app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))

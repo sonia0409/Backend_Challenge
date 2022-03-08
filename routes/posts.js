@@ -6,7 +6,7 @@ const { sortByCategory } = require('../sortByCategory')
 
 module.exports = () => {
     postsRouter.get("/", (req, res) => {
-        res.status(400).json({ error: "Tags parameter is required" })
+        return res.status(400).json({ error: "Tags parameter is required" })
     })
     postsRouter.get("/:tags/:sortBy?/:direction?", (req, res) => {
         const { tags, sortBy, direction } = req.params;
@@ -17,8 +17,9 @@ module.exports = () => {
         //to validate the tags
         const validTags = ['tech', 'health', 'history', 'science', 'startups', 'culture', 'design', 'politics']
 
+
         if (!validSortBy.includes(sortBy) || !validDirection.includes(direction)) {
-            res.status(400).json({ error: "sortBy parameter is invalid" })
+            return res.status(400).json({ error: "sortBy parameter is invalid" })
         }
         //fetch posts by one tag,then sortBy,and order by direction - happy path
         /* const getPostsByTags = (tags, sortBy, direction) => {
@@ -35,13 +36,20 @@ module.exports = () => {
                 })
                 .catch(err => console.error(err.message))
         } */
+
+
+            multipleTagsArr.filter(tag => {
+                if (!validTags.includes(tag)) {
+                   return res.status(404).json({ error: "Tag parameter is invalid" })             
+                }
+            })
+
         //api call with multiple tags
+        
         const getPostsByMultipleTags = (multipleTagsArr, sortBy, direction) => {
+
             //an array of api calls made with each tag
             const apiCallArr = multipleTagsArr.map(tag => {
-                if(!validTags.includes(tag)){
-                   res.status(400).json({ error: "tech parameter is invalid" })
-                }
                 return axios.get(`http://hatchways.io/api/assessment/blog/posts?tag=${tag}&sortBy=${sortBy}&direction=${direction}`)
             })
 
@@ -65,32 +73,18 @@ module.exports = () => {
                     })
                     if (sortBy || direction) {
                         const sortedPosts = filteredAllPosts.sort(sortByCategory(sortBy, direction))
-                        res.json({ posts: sortedPosts })
+                        return res.json({ posts: sortedPosts })
 
                     } else {
-                        res.json({ posts: filteredAllPosts })
+                        return res.json({ posts: filteredAllPosts })
                     }
                 })
-                .catch(err => console.error(err.message))
+                .catch(err => console.log(err.message))
         }
+        
 
-        getPostsByMultipleTags(multipleTagsArr, sortBy, direction);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // getPostsByTags(tags, sortBy, direction)
-
+           return getPostsByMultipleTags(multipleTagsArr, sortBy, direction)
+    
 
     })
     return postsRouter;
