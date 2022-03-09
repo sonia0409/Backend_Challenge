@@ -4,7 +4,7 @@
 const sortByCategory = (key, order = 'asc') => {
     return function innerSort(a, b) {
         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-            // property doesn't exist on either object
+            //if property doesn't exist on either object
             return 0;
         }
         const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
@@ -24,5 +24,5 @@ const sortByCategory = (key, order = 'asc') => {
 
 }
 
-module.exports = { sortByCategory }; 
+module.exports = { sortByCategory };
 

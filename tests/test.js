@@ -10,7 +10,7 @@ describe("server testing", () => {
         test("It should response success: true", async () => {
             const response = await request(app).get("/api/ping")
             expect(response.body).toEqual({ "success": true });
-           
+
         });
         test("It should response status 404 on unsuccessful api call", async () => {
             const response = await request(app).get("/api/pingg")
@@ -73,8 +73,8 @@ describe("server testing", () => {
                 }
             }
             expect(test()).toBe(true);
-        }); 
-        //test default list of posts
+        });
+        //test list of posts sorted by id and direction 'asc' by default
         test("It should response true for default sortBy id and direction asc", async () => {
             const response = await request(app).get("/api/posts/tech,history")
             const test = () => {
